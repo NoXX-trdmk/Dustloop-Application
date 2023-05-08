@@ -18,6 +18,7 @@ class Move:
         self.Description = Description
         self.Image = Image
 
+
 class FrameData:
     def __init__(self, Damage, Guard, Startup, Active, Recovery, OnBlock, OnHit, Invuln):
         self.Damage = Damage
@@ -48,9 +49,16 @@ listofMovenames = list()
 normalList = list()
 listofDescriptions = list()
 listofFrameDataDamage = list()
+listofFrameDataGuard = list()
+listofFrameDataStartup = list()
+listofFrameDataActive = list()
+listofFrameDataRecovery = list()
+listofFrameDataOnblock = list()
+listofFrameDataOnhit = list()
+listofFrameDataInvul = list()
 
 
-
+# Gets the individual frame data for each attribute of the FrameData Class Type
 def getFrameData(moveName):
     for moves in allMoveDescriptions:
         try:
@@ -63,22 +71,42 @@ def getFrameData(moveName):
             moveOnblock = moves.find_previous(class_="field_On-Block")
             moveOnhit = moves.find_previous(class_="field_On-Hit")
             moveInvul = moves.find_previous(class_="field_Invuln")
-            frameData = FrameData(moveDamage, moveGuard, moveStartup, moveActive,
-                              moveRecovery, moveOnblock, moveOnhit, moveInvul)
+
             listofFrameDataDamage.append(moveDamage)
+            listofFrameDataGuard.append(moveGuard)
+            listofFrameDataStartup.append(moveStartup)
+            listofFrameDataActive.append(moveActive)
+            listofFrameDataRecovery.append(moveRecovery)
+            listofFrameDataOnblock.append(moveOnblock)
+            listofFrameDataOnhit.append(moveOnhit)
 
 
         except:
-             continue
+            continue
     match moveName:
         case "c.L":
             damage = listofFrameDataDamage[1]
+            guard = listofFrameDataGuard[1]
+            startup = listofFrameDataStartup[1]
+            active = listofFrameDataActive[1]
+            recovery = listofFrameDataRecovery[1]
+            onblock = listofFrameDataOnblock[1]
+            onhit = listofFrameDataOnhit[1]
+
         case _:
             damage = listofFrameDataDamage[2]
-    print(listofFrameDataDamage)
-    print(damage.text)
+            guard = listofFrameDataGuard[2]
+            startup = listofFrameDataStartup[2]
+            active = listofFrameDataActive[2]
+            recovery = listofFrameDataRecovery[2]
+            onblock = listofFrameDataOnblock[2]
+            onhit = listofFrameDataOnhit[2]
 
-getFrameData("c.M")
+    print(listofFrameDataDamage)
+    print(startup.text)
+
+
+getFrameData("c.L")
 # def moveData(moveName):
 #
 #     for moves in allMoveDescriptions:
@@ -93,13 +121,10 @@ getFrameData("c.M")
 #            description = listofDescriptions(1)
 #         case _:
 #            description = listofDescriptions(2)
-    # newMove = Move(moveName, ,description )
-
+# newMove = Move(moveName, ,description )
 
 
 # moveData("c.M")
-
-
 
 
 # Gets the Normals on the Site

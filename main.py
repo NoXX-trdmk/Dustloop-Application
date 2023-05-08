@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from enum import Enum
 
 
+
 class MoveType(Enum):
     NormalMoves = 'Normal Moves'
     Unique = 'Unique Action'
@@ -60,6 +61,8 @@ listofFrameDataInvul = list()
 # Gets the individual frame data for each attribute of the FrameData Class Type
 def getFrameData(moveName):
     for moves in allMoveDescriptions:
+        # if (moveName.lower() == "auto-combo" or "5u" or "reginleiv" or "rising-sword" )
+
         try:
             # moveVersion = moves.find_previous(class_="field_Version")
             moveDamage = moves.find_previous(class_="field_Damage")
@@ -83,8 +86,8 @@ def getFrameData(moveName):
 
         except:
             continue
-    match moveName:
-        case "c.L":
+    match moveName.lower():
+        case "c.l":
             damage = listofFrameDataDamage[1]
             guard = listofFrameDataGuard[1]
             startup = listofFrameDataStartup[1]
@@ -94,7 +97,7 @@ def getFrameData(moveName):
             onhit = listofFrameDataOnhit[1]
             invul = listofFrameDataInvul[1]
 
-        case _:
+        case "c.m":
             damage = listofFrameDataDamage[2]
             guard = listofFrameDataGuard[2]
             startup = listofFrameDataStartup[2]
@@ -103,8 +106,31 @@ def getFrameData(moveName):
             onblock = listofFrameDataOnblock[2]
             onhit = listofFrameDataOnhit[2]
             invul = listofFrameDataInvul[2]
+        case "c.h":
+            damage = listofFrameDataDamage[3]
+            guard = listofFrameDataGuard[3]
+            startup = listofFrameDataStartup[3]
+            active = listofFrameDataActive[3]
+            recovery = listofFrameDataRecovery[3]
+            onblock = listofFrameDataOnblock[3]
+            onhit = listofFrameDataOnhit[3]
+            invul = listofFrameDataInvul[3]
+        case "auto-combo":
+            damage = listofFrameDataDamage[4]
+            guard = listofFrameDataGuard[4]
+            startup = listofFrameDataStartup[4]
+            active = listofFrameDataActive[4]
+            recovery = listofFrameDataRecovery[4]
+            onblock = listofFrameDataOnblock[4]
+            onhit = listofFrameDataOnhit[4]
+            invul = listofFrameDataInvul[4]
+        case _:
+            print("")
 
-    frameData = FrameData(damage, guard, startup, active, recovery, onblock, onhit, invul)
+    try:
+        frameData = FrameData(damage, guard, startup, active, recovery, onblock, onhit, invul)
+    except Exception as e:
+        raise Exception("wrong input")
     return frameData
 
 
@@ -118,11 +144,15 @@ def moveData(moveName):
     # calls the getFrameData Function
 
     moveFrameData = getFrameData(moveName)
-    match moveName:
-        case "c.L":
+    match moveName.lower():
+        case "c.l":
             description = listofDescriptions[0]
-        case _:
+        case "c.m":
             description = listofDescriptions[1]
+        case "c.h":
+            description = listofDescriptions[2]
+        case "auto-combo":
+            description = listofDescriptions[3]
     newMove = Move(moveName, moveFrameData, description)
 
     print(newMove.MoveName,
@@ -138,7 +168,7 @@ def moveData(moveName):
           newMove.Description)
 
 
-moveData(input())
+moveData(input("Give an input "))
 # moveData("c.L")
 
 

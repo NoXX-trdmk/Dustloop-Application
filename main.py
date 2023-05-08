@@ -18,7 +18,6 @@ class Move:
         self.Description = Description
         self.Image = Image
 
-
 class FrameData:
     def __init__(self, Damage, Guard, Startup, Active, Recovery, OnBlock, OnHit, Invuln):
         self.Damage = Damage
@@ -48,16 +47,38 @@ allMoveDescriptions = results.find_all(class_="attack-info")
 listofMovenames = list()
 normalList = list()
 listofDescriptions = list()
-listofFrameData = list()
+listofFrameDataDamage = list()
 
-for moves in allMoveDescriptions:
 
-    try:
-        moveDamage = moves.find("tbody", class_="field_Damage")
-        print(moveDamage.text)
-    except:
-        continue
 
+def getFrameData(moveName):
+    for moves in allMoveDescriptions:
+        try:
+            # moveVersion = moves.find_previous(class_="field_Version")
+            moveDamage = moves.find_previous(class_="field_Damage")
+            moveGuard = moves.find_previous(class_="field_Guard")
+            moveStartup = moves.find_previous(class_="field_Startup")
+            moveActive = moves.find_previous(class_="field_Active")
+            moveRecovery = moves.find_previous(class_="field_Recovery")
+            moveOnblock = moves.find_previous(class_="field_On-Block")
+            moveOnhit = moves.find_previous(class_="field_On-Hit")
+            moveInvul = moves.find_previous(class_="field_Invuln")
+            frameData = FrameData(moveDamage, moveGuard, moveStartup, moveActive,
+                              moveRecovery, moveOnblock, moveOnhit, moveInvul)
+            listofFrameDataDamage.append(moveDamage)
+
+
+        except:
+             continue
+    match moveName:
+        case "c.L":
+            damage = listofFrameDataDamage[1]
+        case _:
+            damage = listofFrameDataDamage[2]
+    print(listofFrameDataDamage)
+    print(damage.text)
+
+getFrameData("c.M")
 # def moveData(moveName):
 #
 #     for moves in allMoveDescriptions:
@@ -72,10 +93,13 @@ for moves in allMoveDescriptions:
 #            description = listofDescriptions(1)
 #         case _:
 #            description = listofDescriptions(2)
-# newMove = Move(moveName, ,description )
+    # newMove = Move(moveName, ,description )
+
 
 
 # moveData("c.M")
+
+
 
 
 # Gets the Normals on the Site

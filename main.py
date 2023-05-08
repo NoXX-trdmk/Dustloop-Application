@@ -19,6 +19,18 @@ class Move:
         self.Image = Image
 
 
+class FrameData:
+    def __init__(self, Damage, Guard, Startup, Active, Recovery, OnBlock, OnHit, Invuln):
+        self.Damage = Damage
+        self.Guard = Guard
+        self.Startup = Startup
+        self.Active = Active
+        self.Recovery = Recovery
+        self.OnBlock = OnBlock
+        self.OnHit = OnHit
+        self.Invuln = Invuln
+
+
 URL = "https://www.dustloop.com/w/GBVS/Gran"
 page = requests.get(URL)
 
@@ -31,30 +43,41 @@ results = soup.find(id="bodyContent")
 
 allMoves = results.find_all("section", class_="section-collapsible", id="section-collapsible-2")
 allMoveTitles = results.find_all("span", class_="mw-headline")
-allMoveDescriptions = results.find_all("div", class_="attack-info-body")
+allMoveDescriptions = results.find_all(class_="attack-info")
 
-listofmovenames = list()
+listofMovenames = list()
 normalList = list()
-listofdescriptions = list()
+listofDescriptions = list()
+listofFrameData = list()
 
-# print(allMoveDescriptions)
-# for moves in allMoveDescriptions:
-#     moveFrameData = moves.find("p")
-#     # print(moveFrameData.text)
-def moveData(moveName):
-    # newMove = Move(moveName, )
-    for moves in allMoveDescriptions:
-        moveDescription = moves.find("p")
-        try:
-            listofdescriptions.append(moveDescription.text)
-        except:
-            continue
+for moves in allMoveDescriptions:
+
+    try:
+        moveDamage = moves.find("tbody", class_="field_Damage")
+        print(moveDamage.text)
+    except:
+        continue
+
+# def moveData(moveName):
+#
+#     for moves in allMoveDescriptions:
+#         moveDescription = moves.find("p")
+#         try:
+#             listofDescriptions.append(moveDescription.text)
+#         except:
+#             continue
+#     description = ""
+#     match moveName:
+#         case "c.L":
+#            description = listofDescriptions(1)
+#         case _:
+#            description = listofDescriptions(2)
+# newMove = Move(moveName, ,description )
 
 
+# moveData("c.M")
 
 
-    print(listofdescriptions)
-moveData("c.M")
 # Gets the Normals on the Site
 # for NormalTitle in allMoveTitles:
 #     if len(NormalTitle.text) <= 3 or NormalTitle.text == "Auto Combo":

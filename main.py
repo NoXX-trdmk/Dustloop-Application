@@ -12,11 +12,10 @@ class MoveType(Enum):
 
 
 class Move:
-    def __init__(self, MoveName, FrameData, Description, Image):
+    def __init__(self, MoveName, FrameData, Description):
         self.MoveName = MoveName
         self.FrameData = FrameData
         self.Description = Description
-        self.Image = Image
 
 
 class FrameData:
@@ -79,6 +78,7 @@ def getFrameData(moveName):
             listofFrameDataRecovery.append(moveRecovery)
             listofFrameDataOnblock.append(moveOnblock)
             listofFrameDataOnhit.append(moveOnhit)
+            listofFrameDataInvul.append(moveInvul)
 
 
         except:
@@ -92,6 +92,7 @@ def getFrameData(moveName):
             recovery = listofFrameDataRecovery[1]
             onblock = listofFrameDataOnblock[1]
             onhit = listofFrameDataOnhit[1]
+            invul = listofFrameDataInvul[1]
 
         case _:
             damage = listofFrameDataDamage[2]
@@ -101,30 +102,44 @@ def getFrameData(moveName):
             recovery = listofFrameDataRecovery[2]
             onblock = listofFrameDataOnblock[2]
             onhit = listofFrameDataOnhit[2]
+            invul = listofFrameDataInvul[2]
 
-    print(listofFrameDataDamage)
-    print(startup.text)
-
-
-getFrameData("c.L")
-# def moveData(moveName):
-#
-#     for moves in allMoveDescriptions:
-#         moveDescription = moves.find("p")
-#         try:
-#             listofDescriptions.append(moveDescription.text)
-#         except:
-#             continue
-#     description = ""
-#     match moveName:
-#         case "c.L":
-#            description = listofDescriptions(1)
-#         case _:
-#            description = listofDescriptions(2)
-# newMove = Move(moveName, ,description )
+    frameData = FrameData(damage, guard, startup, active, recovery, onblock, onhit, invul)
+    return frameData
 
 
-# moveData("c.M")
+def moveData(moveName):
+    for moves in allMoveDescriptions:
+        moveDescription = moves.find("p")
+        try:
+            listofDescriptions.append(moveDescription.text)
+        except:
+            continue
+    # calls the getFrameData Function
+
+    moveFrameData = getFrameData(moveName)
+    match moveName:
+        case "c.L":
+            description = listofDescriptions[0]
+        case _:
+            description = listofDescriptions[1]
+    newMove = Move(moveName, moveFrameData, description)
+
+    print(newMove.MoveName,
+          "\n",
+          newMove.FrameData.Damage.text,
+          newMove.FrameData.Guard.text,
+          newMove.FrameData.Startup.text,
+          newMove.FrameData.Active.text,
+          newMove.FrameData.Recovery.text,
+          newMove.FrameData.OnBlock.text,
+          newMove.FrameData.OnHit.text,
+          newMove.FrameData.Invuln.text, "\n",
+          newMove.Description)
+
+
+moveData(input())
+# moveData("c.L")
 
 
 # Gets the Normals on the Site
